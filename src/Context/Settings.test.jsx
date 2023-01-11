@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import SettingsProvider, { SettingsContext } from './SettingsContext';
 
 describe('Settings Context', () => {
-    it('initial state loads as expected', () => {
+    it('loads initial state as expected', () => {
         render(
             <SettingsProvider>
                 <SettingsContext.Consumer>
