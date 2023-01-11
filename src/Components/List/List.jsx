@@ -7,7 +7,7 @@ const List = ({list, toggleComplete}) => {
   const { showCompleted, pageItems } = useContext(SettingsContext);
   const [page, setPage] = useState(1);
 
-  //pagination logic
+  //pagination
 const listToRender = showCompleted ? list : list.filter(item => !item.complete);
 const listStart = pageItems * (page -1);
 const listEnd = listStart + pageItems
