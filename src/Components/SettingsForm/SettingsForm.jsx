@@ -1,6 +1,8 @@
 import { IconSettings } from "@tabler/icons";
-import { createStyles, Grid, Card, Text } from '@mantine/core';
-import { ThemeContext } from '@emotion/react';
+import { createStyles, Grid, Card, Text, Switch, NumberInput, TextInput, Button } from '@mantine/core';
+import { useContext, useState } from 'react';
+import { SettingsContext } from '../../Context/SettingsContext'
+// or is it just Settings
 
 const useStyles = createStyles((theme) => ({
     h1: {
@@ -16,21 +18,52 @@ const useStyles = createStyles((theme) => ({
 }));
 
 const SettingsForm = () => {
-
+    const [show, setShow] = useState(false);
+    const { showComplete,
+            setShowComplete, 
+            pageItems, 
+            setPageItems, 
+            sort, 
+            setSort, 
+            saveLocally, } = useContext(SettingsContext);
     const { classes } = useStyles();
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        setShow(true)
+        saveLocally();
+    }
     return (
         <>
             <h1 className={classes.h1}><IconSettings /> Manage Settings</h1>
             <Grid style={{ width: '80%', margin: 'auto' }}>
                 <Grid.Col xs={12} sm={6}>
-                    <Card withBorder>
-                        <Card.Section>
+                    <Card withBorder p="xs">
+                        
+                            <form onSubmit={handleSubmit}>
                             <Text>Updated Settings</Text>
-                        </Card.Section>
+                            <Switch label="Show Completed Todos" 
+                            checked={showComplete} onChange={(event) => setShowComplete(event.currentTarget.checked)} />
+
+                            <NumberInput 
+                            value={pageItems}
+                            label="Items Per Page"
+                            onChange={(value) => setPageItems(value)}
+                            />
+                            <TextInput
+                            mb="sm"
+                            placeholder={sort}
+                            onChange={(e) => setSort(e.target.value)}
+                            label="Sort Keyword"
+                            />
+                            
+                            <Button type="submit">Show New Settings</Button>
+
+                            </form>
                     </Card>
                 </Grid.Col>
                 <Grid.Col xs={12} sm={6}>
-
+                   {/* conditionally render settings changes */}
                 </Grid.Col>
             </Grid>
         </>
