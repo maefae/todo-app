@@ -5,6 +5,7 @@ import { Card, createStyles, Grid, Slider, Text, TextInput, Button } from '@mant
 import { v4 as uuid } from 'uuid';
 import { SettingsContext } from '../../Context/SettingsContext.jsx';
 import List from '../List/List';
+import Auth from '../Auth/auth.js';
 
 const useStyles = createStyles((theme) => ({
   h1: {
@@ -68,13 +69,13 @@ const ToDo = () => {
 
   return (
     <>
-      {/* <header data-testid="todo-header"> breaks test */}
         <h1 data-testid="todo-h1" className={classes.h1}>To Do List: {incomplete} items pending</h1>
-      {/* </header> */}
 
-      <Grid style={{ width: '80%', margin: 'auto' }}>
+        <Grid style={{ width: '80%', margin: 'auto' }}>
+          <Auth capability="create">
         <Grid.Col xs={12} sm={4}>
-          <Card withBorder><form onSubmit={handleSubmit}>
+          <Card withBorder>
+            <form onSubmit={handleSubmit}>
 
 <h2>Add To Do Item</h2>
 <TextInput
@@ -104,6 +105,7 @@ const ToDo = () => {
   <Button type="submit">Add Item</Button>
 </form></Card>
           </Grid.Col>
+          </Auth>
         <Grid.Col xs={12} sm={8}>
         {/* <Card withBorder></Card> */}
         <List list={list} toggleComplete={toggleComplete} />

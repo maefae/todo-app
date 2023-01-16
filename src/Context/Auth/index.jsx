@@ -26,12 +26,13 @@ const testUsers = {
   }
 
 const AuthProvider = ({children}) => {
-    const [isLoggedIn, setisLoggedIn] = useState(false);
-    const [user, setuser] = useState({});
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [user, setUser] = useState({});
     const [error, setError] = useState(null);
 
     const can = (capability) => {
-
+        // shorthand usage
+        return user?.capabilities?.includes(capability)
     };
 
     const _validateToken = (token) => {
@@ -40,7 +41,7 @@ const AuthProvider = ({children}) => {
             console.log('validUser', validUser);
             if(validUser){
                 setUser(validUser)
-                setisLoggedIn(true);
+                setIsLoggedIn(true);
                 console.log('logged in');
             }
         } catch(e){
@@ -64,7 +65,9 @@ const AuthProvider = ({children}) => {
     };
 
     const logout = () => {
-
+        //takes away user access 
+        setUser({})
+        setIsLoggedIn(false);
     };
 
    const values = {
