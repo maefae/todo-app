@@ -9,21 +9,21 @@ import Auth from '../Auth/auth.js';
 
 const useStyles = createStyles((theme) => ({
   h1: {
-      backgroundColor: theme.colors.gray[8],
-      color: theme.colors.gray[0],
-      width: '80%',
-      margin: 'auto',
-      fontSize: theme.fontSizes.lg,
-      padding: theme.spacing.md,
-      marginBottom: theme.spacing.md,
-      marginTop: theme.spacing.md,
+    backgroundColor: theme.colors.gray[8],
+    color: theme.colors.gray[0],
+    width: '80%',
+    margin: 'auto',
+    fontSize: theme.fontSizes.lg,
+    padding: theme.spacing.md,
+    marginBottom: theme.spacing.md,
+    marginTop: theme.spacing.md,
   }
 }));
 
 const ToDo = () => {
   const { classes } = useStyles();
 
-  const {showComplete, pageItems, sort} = useContext(SettingsContext)
+  const { showComplete, pageItems, sort } = useContext(SettingsContext)
   console.log('todo: ', showComplete, pageItems, sort)
 
   const [defaultValues] = useState({
@@ -41,15 +41,15 @@ const ToDo = () => {
   }
 
   function deleteItem(id) {
-    const items = list.filter( item => item.id !== id );
+    const items = list.filter(item => item.id !== id);
     setList(items);
   }
 
   function toggleComplete(id) {
 
-    const items = list.map( item => {
-      if ( item.id === id ) {
-        item.complete = ! item.complete;
+    const items = list.map(item => {
+      if (item.id === id) {
+        item.complete = !item.complete;
       }
       return item;
     });
@@ -65,56 +65,59 @@ const ToDo = () => {
     // linter will want 'incomplete' added to dependency array unnecessarily. 
     // disable code used to avoid linter warning 
     // eslint-disable-next-line react-hooks/exhaustive-deps 
-  }, [list]);  
+  }, [list]);
 
   return (
     <>
-        <h1 data-testid="todo-h1" className={classes.h1}>To Do List: {incomplete} items pending</h1>
+      <h1 data-testid="todo-h1" className={classes.h1}>To Do List: {incomplete} items pending</h1>
 
-        <Grid style={{ width: '80%', margin: 'auto' }}>
-          <Auth capability="create">
-        <Grid.Col xs={12} sm={4}>
-          <Card withBorder>
-            <form onSubmit={handleSubmit}>
+      <Grid style={{ width: '80%', margin: 'auto' }}>
+        <Auth capability="create">
+          <Grid.Col xs={12} sm={4}>
+            <Card withBorder>
+              <form onSubmit={handleSubmit}>
 
-<h2>Add To Do Item</h2>
-<TextInput
-  name="text"
-  placeholder="Item Details"
-  onChange={handleChange}
-  label="To Do Item"
-  />
+                <h2>Add To Do Item</h2>
+                <TextInput
+                  name="text"
+                  placeholder="Item Details"
+                  onChange={handleChange}
+                  label="To Do Item"
+                />
 
-<TextInput
-  name="assignee"
-  placeholder="Assignee Name"
-  onChange={handleChange}
-  label="Assigned To"
-  />
+                <TextInput
+                  name="assignee"
+                  placeholder="Assignee Name"
+                  onChange={handleChange}
+                  label="Assigned To"
+                />
 
-<Text>Difficulty</Text>
-<Slider
-  name='difficulty'
-  onChange={handleChange}
-  min={1}
-  max={5}
-  step={1}
-  defaultValue={defaultValues.difficulty}
-/>
+                <Text>Difficulty</Text>
+                <Slider
+                  name='difficulty'
+                  onChange={handleChange}
+                  min={1}
+                  max={5}
+                  step={1}
+                  defaultValue={defaultValues.difficulty}
+                />
 
-  <Button type="submit">Add Item</Button>
-</form></Card>
+                <Button type="submit">Add Item</Button>
+              </form></Card>
           </Grid.Col>
-          </Auth>
-        <Grid.Col xs={12} sm={8}>
-        {/* <Card withBorder></Card> */}
-        <List list={list} toggleComplete={toggleComplete} />
+        </Auth>
+        <Auth capability="read">
+          <Grid.Col xs={12} sm={8}>
+            <List
+              list={list}
+              toggleComplete={toggleComplete}
+              deleteItem={deleteItem}
+            />
 
-        </Grid.Col>
+          </Grid.Col>
+        </Auth>
       </Grid>
 
-      
-    
     </>
   );
 };
